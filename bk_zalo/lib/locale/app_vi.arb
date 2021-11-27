@@ -1,5 +1,23 @@
 {
     "language": "Viet Nam",
     "signin" : "Đăng nhập",
-    "signup" : "Đăng kí"
+    "signup" : "Đăng kí",
+    "signin_hint" : "Vui lòng nhập số điện thoại và mật khẩu để đăng nhập",
+    "sdt" : "Số điện thoại",
+    "password" : "Mật khẩu",
+    "show" : "Hiện",
+    "hide" : "Ẩn  ",
+    "forgot_password" : "Lấy lại mật khẩu",
+    "faq" : "Câu hỏi thường gặp >",
+    "phone_error" : "Số điện thoại không đúng định dạng.",
+    "password_error" : "Vui lòng kiểm tra lại mật khẩu",
+    "login_success" : "Đăng nhập thành công!",
+    "signup_hint" : "Nhập số điện thoại của bạn để tạo tài khoản mới.",
+    "enter_phone" : "Nhập số điện thoại",
+    "enter_password" : "Nhập mật khẩu cho tài khoản của bạn.",
+    "password_invalid" : "Mật khẩu phải lớn hơn 6 kí tự.",
+    "signup_success" : "Đăng kí thành công",
+    "user_valid" : "Xác nhận tài khoản",
+    "user_valid_message" : "Đã tồn tại 1 tài khoản Zalo được gắn với số điện thoại bạn vừa nhập.",
+    "invalid_name" : "Chưa có tên"
 }
