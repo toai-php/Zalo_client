@@ -1,4 +1,5 @@
 import 'package:bk_zalo/locale/locale.dart';
+import 'package:bk_zalo/pages/signed_home/main_home.dart';
 import 'package:bk_zalo/pages/splash.dart';
 import 'package:bk_zalo/pages/unsigned_home/unsigned_home.dart';
 import 'package:bk_zalo/provider/locale_provider.dart';
@@ -17,6 +18,7 @@ void main() {
         routes: {
           '/': (context) => const Loading(),
           '/login': (context) => const Home(),
+          '/home': (context) => const MainHome(),
         },
         locale: provider.locale,
         supportedLocales: L10n.all,

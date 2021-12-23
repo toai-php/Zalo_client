@@ -1,16 +1,21 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'dart:io';
+import 'package:http_parser/http_parser.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:photo_manager/photo_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:bk_zalo/models/post_model.dart';
 import 'package:bk_zalo/models/signin_model.dart';
 import 'package:bk_zalo/models/signup_model.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-import 'package:http/http.dart';
 
 const String HOST = "10.0.2.2:3000";
 
 class APIService {
-  FutureOr<Response> onTimeOut() {
+  FutureOr<http.Response> onTimeOut() {
     return http.Response('no internet', 404);
   }
 
@@ -87,6 +92,73 @@ class APIService {
       return GetUserModel.fromJson(json.decode(response.body));
     } else {
       return GetUserModel(code: '9999', message: 'no internet', data: {});
+    }
+  }
+
+  Future<ResponseData> addPost(
+      List<AssetEntity> images, AssetEntity? video, String? describe) async {
+    bool hasInternet = await checkInternet();
+    if (hasInternet == false) {
+      return ResponseData(
+          code: "9999", message: "no internet connection", data: {});
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('user_token');
+
+    if (token == null) {
+      return ResponseData(code: "9999", message: "user is invalid", data: {});
+    }
+
+    var dio = Dio();
+    dio.options.baseUrl = 'http://' + HOST;
+    dio.options.connectTimeout = 5000;
+    dio.options.receiveTimeout = 5000;
+    dio.options.headers['token'] = token;
+
+    var formData = FormData();
+    if (images.isNotEmpty) {
+      for (int i = 0; i < images.length; i++) {
+        var file = await images[i].file;
+        if (file != null) {
+          String fileName = file.path.split('/').last;
+          String fileType = fileName.split('.').last;
+          formData.files.addAll([
+            MapEntry(
+                'images',
+                MultipartFile.fromFileSync(
+                  file.path,
+                  filename: fileName,
+                  contentType: MediaType('image', fileType),
+                ))
+          ]);
+        }
+      }
+    } else if (video != null) {
+      var file = await video.file;
+      if (file != null) {
+        String fileName = file.path.split('/').last;
+        String fileType = fileName.split('.').last;
+        formData.files.add(MapEntry(
+            'video',
+            MultipartFile.fromFileSync(file.path,
+                filename: fileName,
+                contentType: MediaType('video', fileType))));
+      }
+    }
+    formData.fields.add(MapEntry('describe', describe!));
+    print(formData.files.length);
+
+    try {
+      var response = await dio.post('/it4788/add_post', data: formData);
+      if (response.statusCode == 200 || response.statusCode == 400) {
+        return ResponseData.fromJson(response.data);
+      } else {
+        return ResponseData(code: '9999', message: 'no internet', data: {});
+      }
+    } catch (e) {
+      print(e.toString());
+      return ResponseData(code: '9999', message: 'no internet', data: {});
     }
   }
 }

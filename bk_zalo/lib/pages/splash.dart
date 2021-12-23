@@ -17,7 +17,7 @@ class _LoadingState extends State<Loading> {
     if (token != "") {
       Navigator.pushReplacementNamed(context, '/home');
     } else {
-      Navigator.pushReplacementNamed(context, '/login');
+      Navigator.pushReplacementNamed(context, '/home');
     }
   }
 

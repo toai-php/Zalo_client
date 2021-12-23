@@ -344,7 +344,6 @@ class _SignUpState extends State<SignUp> {
       ),
       body: mapBody[bodyPos](),
     );
-    ;
   }
 }
 

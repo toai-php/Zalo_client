@@ -19,5 +19,10 @@
     "signup_success" : "Đăng kí thành công",
     "user_valid" : "Xác nhận tài khoản",
     "user_valid_message" : "Đã tồn tại 1 tài khoản Zalo được gắn với số điện thoại bạn vừa nhập.",
-    "invalid_name" : "Chưa có tên"
+    "invalid_name" : "Chưa có tên",
+    "search_title" : "Tìm kiếm bạn bè, tin nhắn...",
+    "message_page" : "Tin nhắn",
+    "contact_page" : "Danh bạ",
+    "timeline_page" : "Nhật ký",
+    "person_page" : "Cá nhân"
 }

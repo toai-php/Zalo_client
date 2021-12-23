@@ -22,5 +22,10 @@
     "signup_success" : "Sign up successfully",
     "user_valid" : "User exists",
     "user_valid_message" : "There is a user with the specified phone number.",
-    "invalid_name" : "invalid name"
+    "invalid_name" : "invalid name",
+    "search_title" : "Search friends, messages...",
+    "message_page" : "Message",
+    "contact_page" : "Contact",
+    "timeline_page" : "Timeline",
+    "person_page" : "Me"
 }
