@@ -38,12 +38,14 @@ dependencies:
   dio: ^4.0.4
   faker: ^2.0.0
   cached_network_image: ^3.2.0
-  expandable_text: ^2.2.0
+  video_thumbnail: ^0.4.3
+  socket_io_client: ^1.0.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   http: ^0.13.4
+  video_player: ^2.2.10
 
 dev_dependencies:
   flutter_test:
@@ -86,9 +88,23 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: MyFlutterApp
-       fonts:
-         - asset: assets/fonts/MyFlutterApp.ttf
+      - family: MyFlutterApp
+        fonts:
+          - asset: assets/fonts/MyFlutterApp.ttf
+      - family: Roboto
+        fonts:
+          - asset: assets/fonts/roboto/Roboto-Thin.ttf
+            weight: 100
+          - asset: assets/fonts/roboto/Roboto-Light.ttf
+            weight: 300
+          - asset: assets/fonts/roboto/Roboto-Regular.ttf
+            weight: 400
+          - asset: assets/fonts/roboto/Roboto-Medium.ttf
+            weight: 500
+          - asset: assets/fonts/roboto/Roboto-Bold.ttf
+            weight: 700
+          - asset: assets/fonts/roboto/Roboto-Black.ttf
+            weight: 900
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

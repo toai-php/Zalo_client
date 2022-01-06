@@ -314,7 +314,6 @@ class BottomSheetController {
   bool get isAttached => _panelState != null;
 
   double get sheetHeight {
-    print("object");
     return _panelState?.headerFontSize ?? 0;
   }
 

@@ -1,7 +1,6 @@
 import 'package:bk_zalo/pages/unsigned_home/sign_in.dart';
 import 'package:bk_zalo/pages/unsigned_home/sign_up.dart';
 import 'package:bk_zalo/provider/locale_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:provider/provider.dart';

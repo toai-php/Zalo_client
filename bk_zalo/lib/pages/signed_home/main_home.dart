@@ -1,7 +1,10 @@
+import 'package:bk_zalo/components/custom_page_route.dart';
 import 'package:bk_zalo/icon/my_flutter_app_icons.dart';
+import 'package:bk_zalo/pages/signed_home/contact/add_friend.dart';
 import 'package:bk_zalo/pages/signed_home/contact/contact.dart';
 import 'package:bk_zalo/pages/signed_home/message/message.dart';
 import 'package:bk_zalo/pages/signed_home/personal/personal.dart';
+import 'package:bk_zalo/pages/signed_home/personal/setting_page.dart';
 import 'package:bk_zalo/pages/signed_home/timeline/time_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +21,13 @@ class _MainHomeState extends State<MainHome> {
   final _pageViewController = PageController();
 
   int activePage = 0;
+  int numMessage = 0;
+
+  void changeNumMessage(int n) {
+    setState(() {
+      numMessage = n;
+    });
+  }
 
   @override
   void dispose() {
@@ -54,14 +64,17 @@ class _MainHomeState extends State<MainHome> {
             style: const TextStyle(color: Color(0xFF86C7FF), fontSize: 17),
           ),
         ),
+        actions: _action(activePage),
       ),
       body: PageView(
         controller: _pageViewController,
-        children: const <Widget>[
-          MessagePage(),
-          ContactPage(),
-          TimelinePage(),
-          PersonalPage(),
+        children: <Widget>[
+          MessagePage(
+            onNumMessage: changeNumMessage,
+          ),
+          const ContactPage(),
+          const TimelinePage(),
+          const PersonalPage(),
         ],
         onPageChanged: (index) {
           setState(() {
@@ -79,8 +92,60 @@ class _MainHomeState extends State<MainHome> {
         unselectedItemColor: const Color(0xff494B4A),
         items: [
           BottomNavigationBarItem(
-            icon: const Icon(MyFlutterApp.z_message),
-            activeIcon: const Icon(MyFlutterApp.z_message2),
+            icon: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                const Icon(MyFlutterApp.z_message),
+                Positioned(
+                    right: -10,
+                    top: -9,
+                    child: Container(
+                      width: 20,
+                      height: 17,
+                      child: numMessage > 0
+                          ? Center(
+                              child: Text(
+                                numMessage < 5 ? numMessage.toString() : 'N',
+                                style: const TextStyle(
+                                    fontSize: 10, color: Colors.white),
+                              ),
+                            )
+                          : null,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: numMessage > 0
+                              ? const Color(0xffFE5051)
+                              : Colors.transparent),
+                    ))
+              ],
+            ),
+            activeIcon: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                const Icon(MyFlutterApp.z_message2),
+                Positioned(
+                    right: -10,
+                    top: -9,
+                    child: Container(
+                      width: 20,
+                      height: 17,
+                      child: numMessage > 0
+                          ? Center(
+                              child: Text(
+                                numMessage < 5 ? numMessage.toString() : 'N',
+                                style: const TextStyle(
+                                    fontSize: 10, color: Colors.white),
+                              ),
+                            )
+                          : null,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: numMessage > 0
+                              ? const Color(0xffFE5051)
+                              : Colors.transparent),
+                    ))
+              ],
+            ),
             label: AppLocalizations.of(context)!.message_page,
           ),
           BottomNavigationBarItem(
@@ -105,5 +170,36 @@ class _MainHomeState extends State<MainHome> {
         ],
       ),
     );
+  }
+
+  List<Widget> _action(int index) {
+    if (index == 0) {
+      return [
+        IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.add)),
+      ];
+    }
+    if (index == 1) {
+      return [
+        IconButton(
+            onPressed: () {
+              Navigator.push(context, CustomPageRoute(const AddFriendPage()));
+            },
+            icon: const Icon(Icons.person_add_alt_1)),
+      ];
+    }
+    if (index == 2) {
+      return [
+        IconButton(
+            onPressed: () {}, icon: const Icon(Icons.add_photo_alternate)),
+        IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
+      ];
+    }
+    return [
+      IconButton(
+          onPressed: () {
+            Navigator.push(context, CustomPageRoute(const Settings()));
+          },
+          icon: const Icon(Icons.settings)),
+    ];
   }
 }

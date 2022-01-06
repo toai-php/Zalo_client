@@ -1,9 +1,9 @@
-import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:bk_zalo/api/api_service.dart';
 import 'package:bk_zalo/components/bottom_sheet.dart';
-import 'package:bk_zalo/components/custom_keyboard.dart';
+import 'package:bk_zalo/components/emoji_picker.dart';
 import 'package:bk_zalo/components/media_list.dart';
 import 'package:bk_zalo/components/textfield_style.dart';
 import 'package:bk_zalo/res/colors.dart';
@@ -32,7 +32,6 @@ class _AddPostState extends State<AddPost> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _focusNode.addListener(() async {
       if (_focusNode.hasFocus) {
@@ -51,10 +50,7 @@ class _AddPostState extends State<AddPost> {
   void _addPost() async {
     final api = APIService();
     var vid = video.isEmpty ? null : video.first;
-    api.addPost(images, vid, _textController.text).then((value) {
-      print(value.code);
-      print(value.message);
-    });
+    api.addPost(images, vid, _textController.text).then((value) {});
     Navigator.of(context).pop();
   }
 
@@ -140,6 +136,18 @@ class _AddPostState extends State<AddPost> {
                   type: RequestType.video,
                   update: _videoUpdate,
                 ),
+                EmojiList(
+                  controller: index == 2 ? _sc : null,
+                  onPick: (emoji) {
+                    if (_textController.text.endsWith(' ') ||
+                        _textController.text.isEmpty) {
+                      insertText(emoji, _textController);
+                    } else {
+                      insertText(' ' + emoji, _textController);
+                    }
+                    setState(() {});
+                  },
+                ),
               ],
             ),
             topWidget: Container(
@@ -153,8 +161,34 @@ class _AddPostState extends State<AddPost> {
               child: Material(
                 color: Colors.transparent,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    IconButton(
+                      onPressed: () async {
+                        if (_focusNode.hasFocus) {
+                          _focusNode.unfocus();
+                          await _controller.close();
+                        }
+                        if (_controller.isAttached) {
+                          if (_controller.isPanelClosed) {
+                            setState(() {
+                              index = 2;
+                            });
+                            await _controller.open();
+                          } else {
+                            if (index == 2) {
+                              await _controller.close();
+                            } else {
+                              setState(() {
+                                index = 2;
+                              });
+                            }
+                          }
+                        }
+                      },
+                      icon: const Icon(Icons.emoji_emotions_outlined),
+                    ),
+                    const Spacer(),
                     IconButton(
                       onPressed: video.isNotEmpty
                           ? null
@@ -217,6 +251,15 @@ class _AddPostState extends State<AddPost> {
         ],
       ),
     );
+  }
+
+  void insertText(String insert, TextEditingController controller) {
+    final int cursorPos = controller.selection.base.offset;
+    controller.value = controller.value.copyWith(
+        text: controller.text
+            .replaceRange(max(cursorPos, 0), max(cursorPos, 0), insert),
+        selection: TextSelection.fromPosition(
+            TextPosition(offset: max(cursorPos, 0) + insert.length)));
   }
 
   void _imageUpdate(AssetEntity entity) {

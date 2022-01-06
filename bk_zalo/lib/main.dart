@@ -14,6 +14,7 @@ void main() {
     builder: (context, child) {
       final provider = Provider.of<LocaleProvider>(context);
       return MaterialApp(
+        theme: ThemeData(fontFamily: 'Roboto'),
         debugShowCheckedModeBanner: false,
         routes: {
           '/': (context) => const Loading(),

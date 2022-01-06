@@ -12,6 +12,7 @@ package="com.example.bk_zalo">
    <application
         android:label="bk_zalo"
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

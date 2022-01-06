@@ -2,9 +2,7 @@ import 'package:bk_zalo/api/api_service.dart';
 import 'package:bk_zalo/components/progress_hud.dart';
 import 'package:bk_zalo/models/signup_model.dart';
 import 'package:bk_zalo/pages/unsigned_home/sign_in.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 late GetUserModel signupResponseModel;
@@ -19,6 +17,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _password = TextEditingController();
   final _phone = TextEditingController();
+  final _name = TextEditingController();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
@@ -29,6 +28,7 @@ class _SignUpState extends State<SignUp> {
   int bodyPos = 1;
   bool isButtonPass = true;
   bool isButtonPhone = true;
+  bool isButtonName = true;
   bool showPass = true;
   bool hasError = false;
   bool hasError2 = false;
@@ -51,10 +51,10 @@ class _SignUpState extends State<SignUp> {
                   width: double.infinity, height: 50),
               color: const Color.fromARGB(255, 243, 244, 246),
               child: Padding(
-                padding: EdgeInsets.only(left: 15),
+                padding: const EdgeInsets.only(left: 15),
                 child: Text(
                   AppLocalizations.of(context)!.signup_hint,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
@@ -144,11 +144,92 @@ class _SignUpState extends State<SignUp> {
                                 FocusScope.of(context).nextFocus();
                                 setState(() {
                                   hasError = false;
-                                  bodyPos = 2;
+                                  bodyPos = 3;
                                 });
                               }
                             });
                           }
+                        },
+                  style: ElevatedButton.styleFrom(
+                    shape: const CircleBorder(),
+                    fixedSize: const Size(60, 60),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _body3() {
+    return SafeArea(
+      child: Container(
+        color: Colors.white,
+        constraints: const BoxConstraints.expand(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              alignment: Alignment.centerLeft,
+              constraints: const BoxConstraints.expand(
+                  width: double.infinity, height: 50),
+              color: const Color.fromARGB(255, 243, 244, 246),
+              child: const Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Text(
+                  'Nhập tên của bạn, nên sử dụng tên thật',
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 10),
+              child: TextFormField(
+                key: globalKey,
+                onChanged: (input) {
+                  setState(() {
+                    isButtonName = _name.text.isEmpty;
+                  });
+                },
+                autofocus: true,
+                controller: _name,
+                keyboardType: TextInputType.name,
+                decoration: InputDecoration(
+                  hintText: 'Gồm 2-40 kí tự',
+                  hintStyle: const TextStyle(fontSize: 17),
+                  suffix: _name.text.isEmpty
+                      ? null
+                      : GestureDetector(
+                          child: const Icon(
+                            Icons.close,
+                            color: Color(0xff9AA4A6),
+                          ),
+                          onTap: () {
+                            _name.clear();
+                          },
+                        ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                alignment: AlignmentDirectional.bottomEnd,
+                padding: const EdgeInsets.only(bottom: 10, right: 10),
+                child: ElevatedButton(
+                  child: const Icon(Icons.arrow_forward),
+                  onPressed: isButtonName
+                      ? null
+                      : () {
+                          FocusScope.of(context).nextFocus();
+                          setState(() {
+                            hasError = false;
+                            bodyPos = 2;
+                          });
                         },
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(),
@@ -240,8 +321,7 @@ class _SignUpState extends State<SignUp> {
                           hasError = false;
                           signupRequestModel.phone = _phone.text;
                           signupRequestModel.passwd = _password.text;
-                          print(signupRequestModel.phone);
-                          print(signupRequestModel.passwd);
+                          signupRequestModel.name = _name.text;
                           if (_password.text.length < 6) {
                             setState(() {
                               hasError = true;
@@ -311,7 +391,16 @@ class _SignUpState extends State<SignUp> {
   void initState() {
     super.initState();
 
-    mapBody = {1: _body, 2: _body2};
+    mapBody = {1: _body3, 2: _body, 3: _body2};
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _name.dispose();
+    _password.dispose();
+    _phone.dispose();
+    super.dispose();
   }
 
   @override

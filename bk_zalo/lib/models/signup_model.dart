@@ -31,13 +31,14 @@ class GetUserModel {
 class SignupRequestModel {
   late String phone;
   late String passwd;
-
-  SignupRequestModel() {}
+  late String name;
+  SignupRequestModel();
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
       'phone': phone.trim(),
       'passwd': passwd.trim(),
+      'name': name
     };
 
     return map;

@@ -21,8 +21,10 @@ class LoginResponseModel {
 
   saveData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('user_id', data['id']);
-    await prefs.setString('user_username', data['username'] ?? "");
+    await prefs.setString('name', data['username'] ?? 'User');
+    await prefs.setInt('id', data['id'] ?? 0);
+    await prefs.setString('avtlink',
+        data['avatar'] ?? "http://192.168.1.12:3000/img/default.jpg");
     await prefs.setString('user_token', data['token'] ?? "");
   }
 }

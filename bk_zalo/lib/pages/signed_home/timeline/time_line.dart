@@ -1,9 +1,9 @@
+import 'package:bk_zalo/api/api_service.dart';
 import 'package:bk_zalo/components/custom_page_route.dart';
 import 'package:bk_zalo/models/post_model.dart';
 import 'package:bk_zalo/pages/signed_home/timeline/create_post.dart';
 import 'package:bk_zalo/pages/signed_home/timeline/post.dart';
 import 'package:bk_zalo/pages/signed_home/timeline/post_screen.dart';
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 
 class TimelinePage extends StatefulWidget {
@@ -15,9 +15,14 @@ class TimelinePage extends StatefulWidget {
 
 class _TimelinePageState extends State<TimelinePage>
     with AutomaticKeepAliveClientMixin<TimelinePage> {
-  List<PostFaker> list = [];
+  List<PostModel> list = [];
   final _scrollController = ScrollController(keepScrollOffset: false);
   bool loading = false;
+  bool isEndData = false;
+  final _api = APIService();
+  int lastId = 0;
+  int index = 0;
+  int count = 20;
 
   @override
   void initState() {
@@ -60,14 +65,22 @@ class _TimelinePageState extends State<TimelinePage>
                       return SizedBox(
                         height: 50,
                         width: size.width,
-                        child: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
+                        child: isEndData
+                            ? const Center(
+                                child: Text(
+                                    "Kết bạn để tìm thấy nhiều bài viết hơn"),
+                              )
+                            : const Center(
+                                child: CircularProgressIndicator(),
+                              ),
                       );
                     }
                     var data = list.elementAt(index);
                     return GestureDetector(
-                      child: PostContainer(post: data),
+                      child: PostContainer(
+                        post: data,
+                        update: _update,
+                      ),
                       onTap: () {
                         Navigator.push(
                             context,
@@ -83,13 +96,59 @@ class _TimelinePageState extends State<TimelinePage>
     );
   }
 
+  void _update(int id) {
+    list.removeWhere((element) {
+      if (element.id == id) {
+        return true;
+      }
+      return false;
+    });
+    setState(() {});
+  }
+
   getList() async {
     setState(() {
       loading = true;
     });
-    await Future.delayed(Duration(seconds: 1));
-    for (int i = 0; i < 30; i++) {
-      list.add(PostFaker.origin());
+    var _l = await _api.getListPost(lastId, index, count);
+    if (_l.code == '1000') {
+      list.addAll(_l.data);
+      lastId = _l.lastId;
+      index += _l.data.length;
+    } else if (_l.code == '9994') {
+      setState(() {
+        isEndData = true;
+      });
+    } else if (_l.code == '9995') {
+      showDialog(
+          context: context,
+          builder: (_) {
+            return AlertDialog(
+              title: const Text("Phien dang nhap da het"),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/login');
+                    },
+                    child: const Text("OK")),
+              ],
+            );
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (_) {
+            return AlertDialog(
+              title: const Text("Ket noi that bai"),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(_);
+                    },
+                    child: const Text("OK")),
+              ],
+            );
+          });
     }
     setState(() {
       loading = false;
@@ -97,14 +156,12 @@ class _TimelinePageState extends State<TimelinePage>
   }
 
   Future<void> refresh() async {
-    await Future.delayed(Duration(seconds: 1));
-    for (var element in list) {
-      element.author_name = Faker().person.name();
-    }
-    setState(() {});
+    index = 0;
+    lastId = 0;
+    list.clear();
+    await getList();
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

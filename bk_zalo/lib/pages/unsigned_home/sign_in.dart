@@ -148,9 +148,7 @@ class _SignInState extends State<SignIn> {
                   Padding(
                     padding: EdgeInsets.only(left: 15 * wp, top: 20 * wp),
                     child: GestureDetector(
-                      onTap: () {
-                        print(_size);
-                      },
+                      onTap: () {},
                       child: Text(
                         AppLocalizations.of(context)!.forgot_password,
                         style: const TextStyle(
@@ -187,9 +185,7 @@ class _SignInState extends State<SignIn> {
                             child: Container(
                               alignment: AlignmentDirectional.centerStart,
                               child: GestureDetector(
-                                onTap: () {
-                                  print("tapped");
-                                },
+                                onTap: () {},
                                 child: Text(AppLocalizations.of(context)!.faq),
                               ),
                             ),
@@ -206,7 +202,7 @@ class _SignInState extends State<SignIn> {
         inAsyncCall: isApiCall);
   }
 
-  void loginValidator() {
+  void loginValidator() async {
     FocusScopeNode currentFocus = FocusScope.of(context);
 
     if (!currentFocus.hasPrimaryFocus) {
@@ -234,13 +230,13 @@ class _SignInState extends State<SignIn> {
           isApiCall = true;
         });
         APIService apiService = APIService();
-        apiService.login(requestModel).then((value) {
+        apiService.login(requestModel).then((value) async {
           setState(() {
             isApiCall = false;
           });
 
           if (value.code == '1000') {
-            value.saveData();
+            await value.saveData();
             var snackBar = SnackBar(
                 content: Text(AppLocalizations.of(context)!.login_success));
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
