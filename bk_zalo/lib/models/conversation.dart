@@ -72,7 +72,7 @@ class ConversationModel {
     partnerId = data['partner']['id'] ?? 0;
     partnerName = data['partner']['username'] ?? 'user';
     partnerAvt = data['partner']['avtlink'] ??
-        'http://192.168.1.12:3000/img/default.jpg';
+        'http://192.168.7.104:3000/img/default.jpg';
     lastMessage = data['lastmessage']['message'] ?? '';
     created = DateTime.parse(data['lastmessage']['created']);
     numUnread = data['lastmessage']['unread'];

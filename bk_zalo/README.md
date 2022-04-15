@@ -1,16 +1,30 @@
-# bk_zalo
+# BK-ZALO 
 
-A new Flutter project.
+## Ứng dụng mạng xã hội Mobile với giao diện dựa theo Zalo
 
-## Getting Started
+Note: project chỉ với mục đích học tập.
 
-This project is a starting point for a Flutter application.
+Công nghệ sử dụng: 
+- Client: Flutter 
+- Server: NodeJs - link: https://github.com/toai-php/myServer
 
-A few resources to get you started if this is your first Flutter project:
+Các chức năng đã hoàn thiện:
+- Đăng nhập/đăng kí/đăng xuất
+- Dòng thời gian, thêm sửa xóa bài viết, comment bài viết
+- kết bạn, chat realtime
+- trang cá nhân
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### Một số hình ảnh của app:
+<img src="assets/images/image (1).png" alt="drawing" width="200"/> <img src="assets/images/image (2).png" alt="drawing" width="200"/> <img src="assets/images/image (3).png" alt="drawing" width="200"/> <img src="assets/images/image (4).png" alt="drawing" width="200"/> <img src="assets/images/image (5).png" alt="drawing" width="200"/> <img src="assets/images/image (6).png" alt="drawing" width="200"/> <img src="assets/images/image (7).png" alt="drawing" width="200"/> <img src="assets/images/image (8).png" alt="drawing" width="200"/>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Một số widget phát triển thêm: 
+1. #### Image picker, emoji picker 
+![Alt Text](https://media1.giphy.com/media/YQrpyroLQpiye4BELZ/giphy.gif)
+
+2. #### Custom bottom sheet: 
+Có thể kéo bottom sheet lên full màn hình, kéo xuống để đóng, trải nghiệm giống với app zalo
+![bottom sheet](https://media1.giphy.com/media/Oi67Yvd2ZKN0AlDBXs/giphy.gif)
+
+3. #### Custom textfield: 
+Khi gõ bàn phím có thể tự nhận diện và hiển thị emoji
+![textfield](https://media0.giphy.com/media/b5dqiJjNG9KPh8atW8/giphy.gif)

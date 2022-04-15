@@ -116,7 +116,7 @@ class PostModel {
   }
 
   factory PostModel.fromJson(Map<String, dynamic> data) {
-    String host = "http://192.168.1.12:3000";
+    String host = "http://192.168.7.104:3000";
 
     List<String> img = [];
     String vid = "";

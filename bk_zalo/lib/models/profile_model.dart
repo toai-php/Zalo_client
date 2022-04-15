@@ -31,7 +31,7 @@ class ProfileModel {
         data: dt,
         userName: data['user']['name'] ?? 'user',
         userAvt: data['user']['avtlink'] ??
-            'http://192.168.1.12:3000/img/default.jpg',
+            'http://192.168.7.104:3000/img/default.jpg',
         userId: data['user']['id'] ?? 0,
         type: data['type']);
   }

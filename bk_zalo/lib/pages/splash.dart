@@ -19,7 +19,7 @@ class _LoadingState extends State<Loading> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('user_token') ?? "";
     if (token != "") {
-      final uri = Uri.http("192.168.1.12:3000", "/it4788/getuser");
+      final uri = Uri.http("192.168.7.104:3000", "/it4788/getuser");
       final response = await http.get(uri,
           headers: {'token': token}).timeout(const Duration(seconds: 10));
       if (response.statusCode == 200 || response.statusCode == 400) {
@@ -28,7 +28,7 @@ class _LoadingState extends State<Loading> {
         await prefs.setString('name', data['name']);
         await prefs.setInt('id', data['id'] ?? 0);
         await prefs.setString('avtlink',
-            data['avtlink'] ?? "http://192.168.1.12:3000/img/default.jpg");
+            data['avtlink'] ?? "http://192.168.7.104:3000/img/default.jpg");
       }
       Navigator.pushReplacementNamed(context, '/home');
     } else {

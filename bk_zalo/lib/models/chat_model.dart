@@ -59,7 +59,7 @@ class ChatModel {
     senderId = data['sender']['id'] ?? 0;
     senderName = data['sender']['name'] ?? 'User';
     senderAvt =
-        data['sender']['avtlink'] ?? 'http://192.168.1.12:3000/img/default.jpg';
+        data['sender']['avtlink'] ?? 'http://192.168.7.104:3000/img/default.jpg';
   }
 
   ChatModel.fromJson(Map<String, dynamic> data) {

@@ -37,7 +37,7 @@ class UserModel {
     id = data['user_id'] ?? -1;
     name = data['user_name'] ?? 'User';
     avtlink = data['user_avtlink'] ??
-        'http://http://192.168.1.12:3000/img/default.jpg';
+        'http://http://192.168.7.104:3000/img/default.jpg';
     room = data['room'] ?? -1;
   }
 }

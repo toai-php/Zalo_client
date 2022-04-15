@@ -17,7 +17,7 @@ import 'package:bk_zalo/models/post_model.dart';
 import 'package:bk_zalo/models/signin_model.dart';
 import 'package:bk_zalo/models/signup_model.dart';
 
-const String host = "192.168.1.12:3000";
+const String host = "192.168.7.104:3000";
 
 class APIService {
   FutureOr<http.Response> onTimeOut() {
