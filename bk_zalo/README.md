@@ -23,8 +23,10 @@ Các chức năng đã hoàn thiện:
 
 2. #### Custom bottom sheet: 
 Có thể kéo bottom sheet lên full màn hình, kéo xuống để đóng, trải nghiệm giống với app zalo
+
 ![bottom sheet](https://media1.giphy.com/media/Oi67Yvd2ZKN0AlDBXs/giphy.gif)
 
 3. #### Custom textfield: 
 Khi gõ bàn phím có thể tự nhận diện và hiển thị emoji
+
 ![textfield](https://media0.giphy.com/media/b5dqiJjNG9KPh8atW8/giphy.gif)
