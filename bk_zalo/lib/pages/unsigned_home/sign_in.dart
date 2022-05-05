@@ -234,7 +234,7 @@ class _SignInState extends State<SignIn> {
           setState(() {
             isApiCall = false;
           });
-
+          print(value.code);
           if (value.code == '1000') {
             await value.saveData();
             var snackBar = SnackBar(

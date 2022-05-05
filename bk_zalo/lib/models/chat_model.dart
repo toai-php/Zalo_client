@@ -1,3 +1,4 @@
+import 'package:bk_zalo/config/global_config.dart';
 import 'package:faker/faker.dart';
 
 class ListChat {
@@ -58,8 +59,8 @@ class ChatModel {
     created = DateTime.parse(data['created']);
     senderId = data['sender']['id'] ?? 0;
     senderName = data['sender']['name'] ?? 'User';
-    senderAvt =
-        data['sender']['avtlink'] ?? 'http://192.168.7.104:3000/img/default.jpg';
+    senderAvt = data['sender']['avtlink'] ??
+        'http://' + GlobalConfig.host + '/img/default.jpg';
   }
 
   ChatModel.fromJson(Map<String, dynamic> data) {

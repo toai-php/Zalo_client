@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bk_zalo/components/size_config.dart';
+import 'package:bk_zalo/config/global_config.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +20,7 @@ class _LoadingState extends State<Loading> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('user_token') ?? "";
     if (token != "") {
-      final uri = Uri.http("192.168.7.104:3000", "/it4788/getuser");
+      final uri = Uri.http(GlobalConfig.host, "/it4788/getuser");
       final response = await http.get(uri,
           headers: {'token': token}).timeout(const Duration(seconds: 10));
       if (response.statusCode == 200 || response.statusCode == 400) {
@@ -27,8 +28,10 @@ class _LoadingState extends State<Loading> {
         Map<String, dynamic> data = res['data'];
         await prefs.setString('name', data['name']);
         await prefs.setInt('id', data['id'] ?? 0);
-        await prefs.setString('avtlink',
-            data['avtlink'] ?? "http://192.168.7.104:3000/img/default.jpg");
+        await prefs.setString(
+            'avtlink',
+            data['avtlink'] ??
+                'http://' + GlobalConfig.host + '0/img/default.jpg');
       }
       Navigator.pushReplacementNamed(context, '/home');
     } else {

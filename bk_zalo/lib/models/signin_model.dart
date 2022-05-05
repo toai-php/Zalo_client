@@ -1,4 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:bk_zalo/controller/cache_controller.dart';
 
 class LoginResponseModel {
   late final String code;
@@ -20,12 +20,7 @@ class LoginResponseModel {
   }
 
   saveData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('name', data['username'] ?? 'User');
-    await prefs.setInt('id', data['id'] ?? 0);
-    await prefs.setString('avtlink',
-        data['avatar'] ?? "http://192.168.7.104:3000/img/default.jpg");
-    await prefs.setString('user_token', data['token'] ?? "");
+    await CacheController.saveData(data, 'user');
   }
 }
 

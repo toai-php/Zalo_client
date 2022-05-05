@@ -1,5 +1,7 @@
 import 'package:faker/faker.dart';
 
+import '../config/global_config.dart';
+
 class ResponseData {
   late final String code;
   late final String message;
@@ -116,7 +118,7 @@ class PostModel {
   }
 
   factory PostModel.fromJson(Map<String, dynamic> data) {
-    String host = "http://192.168.7.104:3000";
+    String host = 'http://' + GlobalConfig.host;
 
     List<String> img = [];
     String vid = "";

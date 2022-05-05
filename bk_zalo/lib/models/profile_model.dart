@@ -1,5 +1,7 @@
 import 'package:bk_zalo/models/post_model.dart';
 
+import '../config/global_config.dart';
+
 class ProfileModel {
   late final String code;
   late final String message;
@@ -31,7 +33,7 @@ class ProfileModel {
         data: dt,
         userName: data['user']['name'] ?? 'user',
         userAvt: data['user']['avtlink'] ??
-            'http://192.168.7.104:3000/img/default.jpg',
+            'http://' + GlobalConfig.host + '/img/default.jpg',
         userId: data['user']['id'] ?? 0,
         type: data['type']);
   }

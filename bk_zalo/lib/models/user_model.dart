@@ -1,3 +1,5 @@
+import '../config/global_config.dart';
+
 class ListUser {
   late String code;
   late String message;
@@ -37,7 +39,7 @@ class UserModel {
     id = data['user_id'] ?? -1;
     name = data['user_name'] ?? 'User';
     avtlink = data['user_avtlink'] ??
-        'http://http://192.168.7.104:3000/img/default.jpg';
+        'http://' + GlobalConfig.host + '/img/default.jpg';
     room = data['room'] ?? -1;
   }
 }

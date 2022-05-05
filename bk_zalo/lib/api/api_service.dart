@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:bk_zalo/config/global_config.dart';
 import 'package:bk_zalo/models/chat_model.dart';
 import 'package:bk_zalo/models/comment_model.dart';
 import 'package:bk_zalo/models/conversation.dart';
@@ -16,8 +17,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bk_zalo/models/post_model.dart';
 import 'package:bk_zalo/models/signin_model.dart';
 import 'package:bk_zalo/models/signup_model.dart';
-
-const String host = "192.168.7.104:3000";
 
 class APIService {
   FutureOr<http.Response> onTimeOut() {
@@ -38,7 +37,7 @@ class APIService {
   }
 
   Future<LoginResponseModel> login(LoginRequestModel requestModel) async {
-    final uri = Uri.http(host, "/it4788/login");
+    final uri = Uri.http(GlobalConfig.host, "/it4788/login");
 
     bool hasInternet = await checkInternet();
 
@@ -50,6 +49,7 @@ class APIService {
     final response = await http
         .post(uri, body: requestModel.toJson())
         .timeout(const Duration(seconds: 2), onTimeout: onTimeOut);
+    print(response.statusCode);
     if (response.statusCode == 200 || response.statusCode == 400) {
       return LoginResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -59,7 +59,7 @@ class APIService {
   }
 
   Future<SignupResponseModel> signup(SignupRequestModel requestModel) async {
-    final uri = Uri.http(host, "/it4788/signup");
+    final uri = Uri.http(GlobalConfig.host, "/it4788/signup");
 
     bool hasInternet = await checkInternet();
     if (hasInternet == false) {
@@ -79,7 +79,7 @@ class APIService {
   }
 
   Future<GetUserModel> getUser(String phone) async {
-    final uri = Uri.http(host, "/it4788/getuser");
+    final uri = Uri.http(GlobalConfig.host, "/it4788/getuser");
     bool hasInternet = await checkInternet();
     if (hasInternet == false) {
       return GetUserModel(
@@ -116,7 +116,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
@@ -181,7 +181,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
@@ -255,7 +255,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
@@ -293,7 +293,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
@@ -326,7 +326,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
@@ -366,7 +366,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
@@ -404,7 +404,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
@@ -437,7 +437,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
@@ -477,7 +477,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
@@ -520,7 +520,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
@@ -563,7 +563,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
@@ -610,7 +610,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
@@ -663,7 +663,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
@@ -695,7 +695,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
@@ -729,7 +729,7 @@ class APIService {
     }
 
     var dio = Dio();
-    dio.options.baseUrl = 'http://' + host;
+    dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
     dio.options.headers['token'] = token;
