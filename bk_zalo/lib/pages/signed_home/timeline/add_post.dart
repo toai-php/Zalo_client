@@ -284,7 +284,8 @@ class _AddPostState extends State<AddPost> {
     if (video.isNotEmpty) {
       AssetEntity asset = video.first;
       return FutureBuilder(
-        future: asset.thumbDataWithSize(400, 400), //resolution of thumbnail
+        future: asset.thumbnailDataWithSize(
+            const ThumbnailSize(400, 400)), //resolution of thumbnail
         builder: (BuildContext context, AsyncSnapshot<Uint8List?> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             int duration = asset.duration;
@@ -319,7 +320,8 @@ class _AddPostState extends State<AddPost> {
       for (final asset in images) {
         temp.add(
           FutureBuilder(
-            future: asset.thumbDataWithSize(400, 400), //resolution of thumbnail
+            future: asset.thumbnailDataWithSize(
+                const ThumbnailSize(400, 400)), //resolution of thumbnail
             builder:
                 (BuildContext context, AsyncSnapshot<Uint8List?> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {

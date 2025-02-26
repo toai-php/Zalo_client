@@ -43,7 +43,10 @@ class APIService {
 
     if (hasInternet == false) {
       return LoginResponseModel(
-          code: '9999', message: 'no internet connection', data: {});
+        code: '9999',
+        message: 'no internet connection',
+        data: {},
+      );
     }
 
     final response = await http
@@ -54,7 +57,10 @@ class APIService {
       return LoginResponseModel.fromJson(json.decode(response.body));
     } else {
       return LoginResponseModel(
-          code: "9999", message: "no internet connection", data: {});
+        code: "9999",
+        message: "no internet connection",
+        data: {},
+      );
     }
   }
 
@@ -64,7 +70,10 @@ class APIService {
     bool hasInternet = await checkInternet();
     if (hasInternet == false) {
       return SignupResponseModel(
-          code: "9999", message: "no internet connection", data: {});
+        code: "9999",
+        message: "no internet connection",
+        data: {},
+      );
     }
 
     final response = await http
@@ -74,7 +83,10 @@ class APIService {
       return SignupResponseModel.fromJson(json.decode(response.body));
     } else {
       return SignupResponseModel(
-          code: "9999", message: "no internet connection", data: {});
+        code: "9999",
+        message: "no internet connection",
+        data: {},
+      );
     }
   }
 
@@ -83,16 +95,16 @@ class APIService {
     bool hasInternet = await checkInternet();
     if (hasInternet == false) {
       return GetUserModel(
-          code: "9999", message: "no internet connection", data: {});
+        code: "9999",
+        message: "no internet connection",
+        data: {},
+      );
     }
 
-    Map<String, String> map = {
-      'phone': phone,
-    };
-    final response = await http.get(uri, headers: map).timeout(
-          const Duration(seconds: 2),
-          onTimeout: onTimeOut,
-        );
+    Map<String, String> map = {'phone': phone};
+    final response = await http
+        .get(uri, headers: map)
+        .timeout(const Duration(seconds: 2), onTimeout: onTimeOut);
     if (response.statusCode == 200 || response.statusCode == 400) {
       return GetUserModel.fromJson(json.decode(response.body));
     } else {
@@ -101,19 +113,21 @@ class APIService {
   }
 
   Future<ResponseData> addPost(
-      List<AssetEntity> images, AssetEntity? video, String? describe) async {
+    List<AssetEntity> images,
+    AssetEntity? video,
+    String? describe,
+  ) async {
     bool hasInternet = await checkInternet();
     if (hasInternet == false) {
       return ResponseData(
-          code: "9999", message: "no internet connection", data: {});
+        code: "9999",
+        message: "no internet connection",
+        data: {},
+      );
     }
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('user_token');
-
-    if (token == null) {
-      return ResponseData(code: "9995", message: "user is invalid", data: {});
-    }
 
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
@@ -130,12 +144,13 @@ class APIService {
           String fileType = fileName.split('.').last;
           formData.files.addAll([
             MapEntry(
-                'images',
-                MultipartFile.fromFileSync(
-                  file.path,
-                  filename: fileName,
-                  contentType: MediaType('image', fileType),
-                ))
+              'images',
+              MultipartFile.fromFileSync(
+                file.path,
+                filename: fileName,
+                contentType: MediaType('image', fileType),
+              ),
+            ),
           ]);
         }
       }
@@ -144,11 +159,16 @@ class APIService {
       if (file != null) {
         String fileName = file.path.split('/').last;
         String fileType = fileName.split('.').last;
-        formData.files.add(MapEntry(
+        formData.files.add(
+          MapEntry(
             'video',
-            MultipartFile.fromFileSync(file.path,
-                filename: fileName,
-                contentType: MediaType('video', fileType))));
+            MultipartFile.fromFileSync(
+              file.path,
+              filename: fileName,
+              contentType: MediaType('video', fileType),
+            ),
+          ),
+        );
       }
     }
     formData.fields.add(MapEntry('describe', describe!));
@@ -165,20 +185,25 @@ class APIService {
     }
   }
 
-  Future<ResponseData> editPost(int id, String? image_del, int? image_sort,
-      List<AssetEntity> images, AssetEntity? video, String? describe) async {
+  Future<ResponseData> editPost(
+    int id,
+    String? image_del,
+    int? image_sort,
+    List<AssetEntity> images,
+    AssetEntity? video,
+    String? describe,
+  ) async {
     bool hasInternet = await checkInternet();
     if (hasInternet == false) {
       return ResponseData(
-          code: "9999", message: "no internet connection", data: {});
+        code: "9999",
+        message: "no internet connection",
+        data: {},
+      );
     }
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('user_token');
-
-    if (token == null) {
-      return ResponseData(code: "9995", message: "user is invalid", data: {});
-    }
 
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
@@ -195,12 +220,13 @@ class APIService {
           String fileType = fileName.split('.').last;
           formData.files.addAll([
             MapEntry(
-                'images',
-                MultipartFile.fromFileSync(
-                  file.path,
-                  filename: fileName,
-                  contentType: MediaType('image', fileType),
-                ))
+              'images',
+              MultipartFile.fromFileSync(
+                file.path,
+                filename: fileName,
+                contentType: MediaType('image', fileType),
+              ),
+            ),
           ]);
         }
       }
@@ -209,11 +235,16 @@ class APIService {
       if (file != null) {
         String fileName = file.path.split('/').last;
         String fileType = fileName.split('.').last;
-        formData.files.add(MapEntry(
+        formData.files.add(
+          MapEntry(
             'video',
-            MultipartFile.fromFileSync(file.path,
-                filename: fileName,
-                contentType: MediaType('video', fileType))));
+            MultipartFile.fromFileSync(
+              file.path,
+              filename: fileName,
+              contentType: MediaType('video', fileType),
+            ),
+          ),
+        );
       }
     }
     formData.fields.add(MapEntry('describe', describe!));
@@ -235,24 +266,23 @@ class APIService {
   }
 
   Future<ListPostResponseModel> getListPost(
-      int lastId, int index, int count) async {
+    int lastId,
+    int index,
+    int count,
+  ) async {
     bool hasInternet = await checkInternet();
     if (hasInternet == false) {
       return ListPostResponseModel(
-          code: "9999", message: "message", data: [], newItems: 0, lastId: 0);
+        code: "9999",
+        message: "message",
+        data: [],
+        newItems: 0,
+        lastId: 0,
+      );
     }
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('user_token');
-
-    if (token == null) {
-      return ListPostResponseModel(
-          code: "9995",
-          message: "user is invalid",
-          data: [],
-          newItems: 0,
-          lastId: 0);
-    }
 
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
@@ -261,21 +291,30 @@ class APIService {
     dio.options.headers['token'] = token;
 
     try {
-      var response = await dio.post('/it4788/get_list_post', data: {
-        'index': index,
-        'last_id': lastId,
-        'count': count,
-      });
+      var response = await dio.post(
+        '/it4788/get_list_post',
+        data: {'index': index, 'last_id': lastId, 'count': count},
+      );
       if (response.statusCode == 200 || response.statusCode == 400) {
         return ListPostResponseModel.fromJson(response.data);
       } else {
         return ListPostResponseModel(
-            code: "9999", message: "message", data: [], newItems: 0, lastId: 0);
+          code: "9999",
+          message: "message",
+          data: [],
+          newItems: 0,
+          lastId: 0,
+        );
       }
     } catch (e) {
       print(e.toString());
       return ListPostResponseModel(
-          code: "9999", message: "message", data: [], newItems: 0, lastId: 0);
+        code: "9999",
+        message: "message",
+        data: [],
+        newItems: 0,
+        lastId: 0,
+      );
     }
   }
 
@@ -287,10 +326,6 @@ class APIService {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('user_token');
-
-    if (token == null) {
-      return ResponseData(code: "9995", message: "User is invalid", data: {});
-    }
 
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
@@ -304,7 +339,10 @@ class APIService {
         return ResponseData.fromJson(response.data);
       } else {
         return ResponseData(
-            code: "9999", message: "can connect to server", data: {});
+          code: "9999",
+          message: "can connect to server",
+          data: {},
+        );
       }
     } catch (e) {
       print(e.toString());
@@ -321,10 +359,6 @@ class APIService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('user_token');
 
-    if (token == null) {
-      return ResponseData(code: "9995", message: "User is invalid", data: {});
-    }
-
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
@@ -332,13 +366,18 @@ class APIService {
     dio.options.headers['token'] = token;
 
     try {
-      var response = await dio
-          .post('/it4788/del_comment', data: {'id': id, 'id_com': id_com});
+      var response = await dio.post(
+        '/it4788/del_comment',
+        data: {'id': id, 'id_com': id_com},
+      );
       if (response.statusCode == 200 || response.statusCode == 400) {
         return ResponseData.fromJson(response.data);
       } else {
         return ResponseData(
-            code: "9999", message: "can connect to server", data: {});
+          code: "9999",
+          message: "can connect to server",
+          data: {},
+        );
       }
     } catch (e) {
       print(e.toString());
@@ -350,20 +389,15 @@ class APIService {
     bool hasInternet = await checkInternet();
     if (hasInternet == false) {
       return ListComment(
-          code: "9999", message: "message", data: [], isBlocked: true);
-    }
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('user_token');
-
-    if (token == null) {
-      return ListComment(
-        code: "9995",
-        message: "user is invalid",
+        code: "9999",
+        message: "message",
         data: [],
         isBlocked: true,
       );
     }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('user_token');
 
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
@@ -372,21 +406,28 @@ class APIService {
     dio.options.headers['token'] = token;
 
     try {
-      var response = await dio.post('/it4788/get_comment', data: {
-        'index': index,
-        'id': id,
-        'count': count,
-      });
+      var response = await dio.post(
+        '/it4788/get_comment',
+        data: {'index': index, 'id': id, 'count': count},
+      );
       if (response.statusCode == 200 || response.statusCode == 400) {
         return ListComment.fromJson(response.data);
       } else {
         return ListComment(
-            code: "9999", message: "message", data: [], isBlocked: true);
+          code: "9999",
+          message: "message",
+          data: [],
+          isBlocked: true,
+        );
       }
     } catch (e) {
       print(e.toString());
       return ListComment(
-          code: "9999", message: "message", data: [], isBlocked: true);
+        code: "9999",
+        message: "message",
+        data: [],
+        isBlocked: true,
+      );
     }
   }
 
@@ -398,10 +439,6 @@ class APIService {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('user_token');
-
-    if (token == null) {
-      return ResponseData(code: "9995", message: "User is invalid", data: {});
-    }
 
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
@@ -415,7 +452,10 @@ class APIService {
         return ResponseData.fromJson(response.data);
       } else {
         return ResponseData(
-            code: "9999", message: "can connect to server", data: {});
+          code: "9999",
+          message: "can connect to server",
+          data: {},
+        );
       }
     } catch (e) {
       print(e.toString());
@@ -432,10 +472,6 @@ class APIService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('user_token');
 
-    if (token == null) {
-      return ResponseData(code: "9995", message: "User is invalid", data: {});
-    }
-
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
@@ -443,13 +479,18 @@ class APIService {
     dio.options.headers['token'] = token;
 
     try {
-      var response = await dio
-          .post('/it4788/set_comment', data: {'id': id, 'comment': comment});
+      var response = await dio.post(
+        '/it4788/set_comment',
+        data: {'id': id, 'comment': comment},
+      );
       if (response.statusCode == 200 || response.statusCode == 400) {
         return ResponseData.fromJson(response.data);
       } else {
         return ResponseData(
-            code: "9999", message: "can connect to server", data: {});
+          code: "9999",
+          message: "can connect to server",
+          data: {},
+        );
       }
     } catch (e) {
       print(e.toString());
@@ -461,20 +502,15 @@ class APIService {
     bool hasInternet = await checkInternet();
     if (hasInternet == false) {
       return ListConver(
-          code: "9999", message: "message", data: [], numNewMessages: 0);
-    }
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('user_token');
-
-    if (token == null) {
-      return ListConver(
-        code: "9995",
-        message: "user is invalid",
+        code: "9999",
+        message: "message",
         data: [],
         numNewMessages: 0,
       );
     }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('user_token');
 
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
@@ -483,20 +519,28 @@ class APIService {
     dio.options.headers['token'] = token;
 
     try {
-      var response = await dio.post('/it4788/get_list_conversation', data: {
-        'index': index,
-        'count': count,
-      });
+      var response = await dio.post(
+        '/it4788/get_list_conversation',
+        data: {'index': index, 'count': count},
+      );
       if (response.statusCode == 200 || response.statusCode == 400) {
         return ListConver.fromJson(response.data);
       } else {
         return ListConver(
-            code: "9999", message: "message", data: [], numNewMessages: 0);
+          code: "9999",
+          message: "message",
+          data: [],
+          numNewMessages: 0,
+        );
       }
     } catch (e) {
       print(e.toString());
       return ListConver(
-          code: "9999", message: "message", data: [], numNewMessages: 0);
+        code: "9999",
+        message: "message",
+        data: [],
+        numNewMessages: 0,
+      );
     }
   }
 
@@ -504,20 +548,15 @@ class APIService {
     bool hasInternet = await checkInternet();
     if (hasInternet == false) {
       return ListChat(
-          code: "9999", message: "message", data: [], isBlocked: false);
-    }
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('user_token');
-
-    if (token == null) {
-      return ListChat(
-        code: "9995",
-        message: "user is invalid",
+        code: "9999",
+        message: "message",
         data: [],
         isBlocked: false,
       );
     }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('user_token');
 
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
@@ -526,21 +565,28 @@ class APIService {
     dio.options.headers['token'] = token;
 
     try {
-      var response = await dio.post('/it4788/get_conversation', data: {
-        'index': index,
-        'id': id,
-        'count': count,
-      });
+      var response = await dio.post(
+        '/it4788/get_conversation',
+        data: {'index': index, 'id': id, 'count': count},
+      );
       if (response.statusCode == 200 || response.statusCode == 400) {
         return ListChat.fromJson(response.data);
       } else {
         return ListChat(
-            code: "9999", message: "message", data: [], isBlocked: false);
+          code: "9999",
+          message: "message",
+          data: [],
+          isBlocked: false,
+        );
       }
     } catch (e) {
       print(e.toString());
       return ListChat(
-          code: "9999", message: "message", data: [], isBlocked: false);
+        code: "9999",
+        message: "message",
+        data: [],
+        isBlocked: false,
+      );
     }
   }
 
@@ -552,15 +598,6 @@ class APIService {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('user_token');
-
-    if (token == null) {
-      return ListUser(
-        code: "9995",
-        message: "user is invalid",
-        data: [],
-        total: 0,
-      );
-    }
 
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
@@ -586,28 +623,18 @@ class APIService {
     bool hasInternet = await checkInternet();
     if (hasInternet == false) {
       return ProfileModel(
-          code: "9999",
-          message: "message",
-          data: [],
-          userName: '0',
-          userAvt: '',
-          userId: 0,
-          type: 0);
+        code: "9999",
+        message: "message",
+        data: [],
+        userName: '0',
+        userAvt: '',
+        userId: 0,
+        type: 0,
+      );
     }
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('user_token');
-
-    if (token == null) {
-      return ProfileModel(
-          code: "9995",
-          message: "user is invalid",
-          data: [],
-          userName: '0',
-          userAvt: '',
-          userId: 0,
-          type: 0);
-    }
 
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
@@ -616,31 +643,35 @@ class APIService {
     dio.options.headers['token'] = token;
 
     try {
-      var response = await dio
-          .post('/it4788/get_profile', data: {'id': id, 'phone': phone});
+      var response = await dio.post(
+        '/it4788/get_profile',
+        data: {'id': id, 'phone': phone},
+      );
       if (response.statusCode == 200 || response.statusCode == 400) {
         print('yes');
         return ProfileModel.fromJson(response.data);
       } else {
         return ProfileModel(
-            code: "9999",
-            message: "message",
-            data: [],
-            userName: '0',
-            userAvt: '',
-            userId: 0,
-            type: 0);
-      }
-    } catch (e) {
-      print(e.toString());
-      return ProfileModel(
           code: "9999",
           message: "message",
           data: [],
           userName: '0',
           userAvt: '',
           userId: 0,
-          type: 0);
+          type: 0,
+        );
+      }
+    } catch (e) {
+      print(e.toString());
+      return ProfileModel(
+        code: "9999",
+        message: "message",
+        data: [],
+        userName: '0',
+        userAvt: '',
+        userId: 0,
+        type: 0,
+      );
     }
   }
 
@@ -652,15 +683,6 @@ class APIService {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('user_token');
-
-    if (token == null) {
-      return ListUser(
-        code: "9995",
-        message: "user is invalid",
-        data: [],
-        total: 0,
-      );
-    }
 
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
@@ -690,10 +712,6 @@ class APIService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('user_token');
 
-    if (token == null) {
-      return ResponseData(code: "9995", message: "User is invalid", data: {});
-    }
-
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
@@ -701,13 +719,18 @@ class APIService {
     dio.options.headers['token'] = token;
 
     try {
-      var response =
-          await dio.post('/it4788/set_request_friend', data: {'user_id': id});
+      var response = await dio.post(
+        '/it4788/set_request_friend',
+        data: {'user_id': id},
+      );
       if (response.statusCode == 200 || response.statusCode == 400) {
         return ResponseData.fromJson(response.data);
       } else {
         return ResponseData(
-            code: "9999", message: "can connect to server", data: {});
+          code: "9999",
+          message: "can connect to server",
+          data: {},
+        );
       }
     } catch (e) {
       print(e.toString());
@@ -724,10 +747,6 @@ class APIService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('user_token');
 
-    if (token == null) {
-      return ResponseData(code: "9995", message: "User is invalid", data: {});
-    }
-
     var dio = Dio();
     dio.options.baseUrl = 'http://' + GlobalConfig.host;
     dio.options.connectTimeout = 5000;
@@ -735,13 +754,18 @@ class APIService {
     dio.options.headers['token'] = token;
 
     try {
-      var response = await dio.post('/it4788/set_accept_friend',
-          data: {'user_id': id, 'is_accept': isAccept});
+      var response = await dio.post(
+        '/it4788/set_accept_friend',
+        data: {'user_id': id, 'is_accept': isAccept},
+      );
       if (response.statusCode == 200 || response.statusCode == 400) {
         return ResponseData.fromJson(response.data);
       } else {
         return ResponseData(
-            code: "9999", message: "can connect to server", data: {});
+          code: "9999",
+          message: "can connect to server",
+          data: {},
+        );
       }
     } catch (e) {
       print(e.toString());

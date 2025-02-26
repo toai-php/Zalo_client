@@ -362,7 +362,7 @@ class _EditPostState extends State<EditPost> {
       if (a.isNotEmpty) cnt++;
     }
     if (cnt >= 4) return;
-    var ig = await entity.thumbDataWithSize(400, 400);
+    var ig = await entity.thumbnailDataWithSize(const ThumbnailSize(400, 400));
     if (images.contains(ig)) {
       images.remove(ig);
       _listImage.remove(entity);
@@ -386,7 +386,8 @@ class _EditPostState extends State<EditPost> {
     if (video.isNotEmpty) {
       AssetEntity asset = video.first;
       return FutureBuilder(
-        future: asset.thumbDataWithSize(400, 400), //resolution of thumbnail
+        future: asset.thumbnailDataWithSize(
+            const ThumbnailSize(400, 400)), //resolution of thumbnail
         builder: (BuildContext context, AsyncSnapshot<Uint8List?> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             int duration = asset.duration;

@@ -53,7 +53,8 @@ class _HomeState extends State<Home> {
                     color: Colors.transparent,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: const Color.fromARGB(255, 0, 145, 254),
+                          backgroundColor:
+                              const Color.fromARGB(255, 0, 145, 254),
                           shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(50)))),
@@ -93,7 +94,8 @@ class _HomeState extends State<Home> {
                     color: Colors.transparent,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: const Color.fromARGB(255, 243, 244, 248),
+                          backgroundColor:
+                              const Color.fromARGB(255, 243, 244, 248),
                           shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(50)))),
